@@ -1,0 +1,1 @@
+export { VendingMachineEditPage } from "./VendingMachineEditPage";
