@@ -6,15 +6,15 @@ import { API_URL_CLIENT } from "src/shared/api/http/axios-instance";
 const withdrawProducts = async (
   id: string,
   productIds: string[],
-  countToDelete: number
+  selectedCount: number
 ) => {
-  if (countToDelete > productIds.length) {
+  if (selectedCount > productIds.length) {
     throw new Error(
       "Количество для удаления превышает количество доступных товаров"
     );
   }
 
-  for (let i = 0; i < countToDelete; i++) {
+  for (let i = 0; i < selectedCount; i++) {
     const productId = productIds[i]; // Получаем ID товара из списка
     const res = await fetch(
       `${API_URL_CLIENT}products/cell/${id}/products/${productId}`,
@@ -37,8 +37,8 @@ export const useWithdrawProducts = () => {
     mutationFn: (params: {
       id: string;
       productIds: string[];
-      countToDelete: number;
-    }) => withdrawProducts(params.id, params.productIds, params.countToDelete),
+      selectedCount: number;
+    }) => withdrawProducts(params.id, params.productIds, params.selectedCount),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["productInCell", variables.id],

@@ -1,52 +1,46 @@
-import { useState } from "react";
-import { ModalFillingSteps } from "./components/ModalFillingSteps";
-import { ModalFillingActions } from "./components/ModalFillingActions";
-import { useStepStore } from "./store/stepStore";
+import React from "react";
+import { KeyboardStep } from "./components/KeyboardStep";
+import { useStepStore } from "../VendingMachineEdit/store/stepStore";
+import { ProductSelect } from "./components/ProductSelect";
 
-interface ModalProps {
+interface ModalFillingStepsProps {
+  step: "chooseAction" | "keyboard" | "replaceProduct";
+  setStep: (newStep: "chooseAction" | "keyboard" | "replaceProduct") => void;
+  maxCount: number;
+  selectedCount: number;
+  setSelectedCount: (count: number) => void;
+  currentCount: number;
   isOpen: boolean;
   onClose: () => void;
-  onAction: (action: "keep" | "replace", selectedCount?: number) => void;
-  maxCount?: number;
-  currentCount: number;
+  products: { id: string; name: string; image: string }[];
 }
 
-export const ModalFilling: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  onAction,
-  maxCount = 0,
+export const ModalFilling: React.FC<ModalFillingStepsProps> = ({
+  step,
+  maxCount,
+  selectedCount,
+  setSelectedCount,
   currentCount,
+  onClose,
+  products,
 }) => {
-  const {
-    step,
-    selectedCount,
-    setStep,
-    setSelectedCount,
-  } = useStepStore();
-
-  if (!isOpen) return null;
+  const { productAction } = useStepStore();
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
-      <ModalFillingSteps
-        step={step}
-        setStep={setStep}
-        onClose={onClose}
-        maxCount={maxCount}
-        selectedCount={selectedCount}
-        setSelectedCount={setSelectedCount}
-        onAction={onAction}
-        currentCount={currentCount}
-      />
-      <ModalFillingActions
-        step={step}
-        selectedCount={selectedCount}
-        maxCount={maxCount}
-        currentCount={currentCount}
-        onAction={onAction}
-        onClose={onClose}
-      />
+      {/* Контент модального окна */}
+      {step === "replaceProduct" && <ProductSelect onClose={onClose} />}
+      {step === "keyboard" && (
+        <KeyboardStep
+          selectedCount={selectedCount}
+          setSelectedCount={setSelectedCount}
+          maxCount={maxCount}
+          currentCount={currentCount}
+          productAction={productAction}
+          onClose={onClose}
+          products={products}
+        />
+      )}
     </div>
   );
 };

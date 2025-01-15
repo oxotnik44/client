@@ -1,43 +1,23 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useProductInCell } from "src/modules/FillingProducts/VendingMachineEdit/api/useProductInCell";
-import { API_URL_CLIENT } from "src/shared/api/http/axios-instance";
+import { useFetchProducts } from "../api/fetchProducts";
+import { useUpdateProduct } from "../hooks/useUpdateProduct";
+import { useProductInCell } from "../../VendingMachineEdit/api/useProductInCell";
 
 interface ModalProps {
-  onClose: () => void; // Исправлено: передаём функцию onClose
+  onClose: () => void;
 }
 
 export const ProductSelect: React.FC<ModalProps> = ({ onClose }) => {
-  const [data, setData] = useState<any[]>([]); // Храним данные товаров
-  const [error, setError] = useState<string | null>(null); // Храним ошибку
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Состояние загрузки
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null); // Состояние для выбранного товара
-  const [responseMessage, setResponseMessage] = useState<string | null>(null); // Сообщение от сервера
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const { id } = useParams();
+  const { data, isLoading, isError, error } = useFetchProducts(); // Получаем список товаров
+  const { mutateAsync: updateProduct } = useUpdateProduct(); // Мутация для обновления товара
   const { refetch } = useProductInCell(id || "");
 
-  useEffect(() => {
-    // Функция для загрузки товаров
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(`${API_URL_CLIENT}products/all-product`); // Замените на ваш API
-        if (!response.ok) {
-          throw new Error("Ошибка при загрузке товаров");
-        }
-        const products = await response.json();
-        setData(products);
-      } catch (err) {
-        setError("Произошла ошибка при загрузке товаров");
-      } finally {
-        setIsLoading(false); // После завершения запроса, меняем состояние загрузки
-      }
-    };
-
-    fetchProducts(); // Вызов функции загрузки при монтировании компонента
-  }, []);
-
   const handleProductSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProduct(event.target.value); // Обновляем выбранный товар
+    setSelectedProduct(event.target.value);
   };
 
   const handleUpdateProduct = async () => {
@@ -46,28 +26,15 @@ export const ProductSelect: React.FC<ModalProps> = ({ onClose }) => {
       return;
     }
 
-    const productId = parseInt(selectedProduct); // Преобразуем в число
-
-    const dataToUpdate = {
-      product_id: productId,
-      count: 0, // Здесь можно задать нужное количество
-      max_count: 10, // Максимальное количество
-    };
+    const productId = parseInt(selectedProduct);
 
     try {
-      const response = await fetch(`${API_URL_CLIENT}products/cell/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToUpdate),
-      });
-
-      if (!response.ok) {
-        throw new Error("Ошибка при обновлении товара");
-      }
-
-      const result = await response.json();
+      const result = await updateProduct({
+        id: id || "",
+        productId: productId,
+        count: 0,
+        maxCount: 10,
+      }); // Передаем параметры в одном объекте
       setResponseMessage(`Товар обновлен: ${result.message || "успешно"}`);
       refetch();
       onClose(); // Закрываем модальное окно после успешного выполнения
@@ -80,8 +47,8 @@ export const ProductSelect: React.FC<ModalProps> = ({ onClose }) => {
     return <div>Загрузка товаров...</div>;
   }
 
-  if (error) {
-    return <div>{error}</div>;
+  if (isError) {
+    return <div>{error?.message}</div>;
   }
 
   return (
@@ -97,9 +64,9 @@ export const ProductSelect: React.FC<ModalProps> = ({ onClose }) => {
           <option value="" disabled>
             Выберите товар
           </option>
-          {data.map((product: any) => (
+          {data?.map((product: any) => (
             <option key={product.id} value={product.id}>
-              {product.name} - {product.price/100} ₽
+              {product.name} - {product.price / 100} ₽
             </option>
           ))}
         </select>

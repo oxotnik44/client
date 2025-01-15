@@ -32,6 +32,7 @@ export interface ProductData {
     name: string;
     image: string;
   }; // Категория товара
+  number: number;
   composition?: string; // Состав товара
   expiration_date?: string; // Срок годности (если есть)
   sku: string; // Артикул товара

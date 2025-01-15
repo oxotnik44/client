@@ -5,7 +5,7 @@ type ProductDetailsProps = {
   image: string;
   count: number;
   maxCount: number;
-  id: string | undefined;
+  number: number;
 };
 
 export const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -13,11 +13,11 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({
   image,
   count,
   maxCount,
-  id,
+  number,
 }) => {
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-6">Информация о ячейке #{id}</h1>
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-2xl font-bold mb-6">Информация о ячейке #{number}</h1>
 
       <img
         src={image}
