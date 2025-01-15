@@ -1,15 +1,15 @@
 import { ProductSelect } from "src/modules/FillingProducts/ModalFilling/components/ProductSelect";
+import { useStepStore } from "../store/stepStore";
 
 interface ModalFillingStepsProps {
   step: "chooseAction" | "keyboard" | "replaceProduct";
-  setStep: React.Dispatch<
-    React.SetStateAction<"chooseAction" | "keyboard" | "replaceProduct">
-  >;
+  setStep: (newStep: "chooseAction" | "keyboard" | "replaceProduct") => void; // Тип для Zustand
   onClose: () => void;
   maxCount: number;
   selectedCount: number;
-  setSelectedCount: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedCount: (count: number) => void;
   onAction: (action: "keep" | "replace", selectedCount?: number) => void;
+  currentCount: number;
 }
 
 export const ModalFillingSteps: React.FC<ModalFillingStepsProps> = ({
@@ -19,7 +19,10 @@ export const ModalFillingSteps: React.FC<ModalFillingStepsProps> = ({
   maxCount,
   selectedCount,
   setSelectedCount,
+  currentCount,
 }) => {
+  const { productAction, setProductAction } = useStepStore();
+
   // Функция для обновления selectedCount с ограничением maxCount
   const handleNumberClick = (num: number) => {
     if (num <= maxCount) {
@@ -33,7 +36,9 @@ export const ModalFillingSteps: React.FC<ModalFillingStepsProps> = ({
     case "chooseAction":
       return (
         <>
-          <h2 className="text-xl font-bold mb-4">Количество товара равно 0</h2>
+          <h2 className="text-xl font-bold mb-4">
+            Количество товара равно {currentCount}
+          </h2>
           <p className="mb-4">Что вы хотите сделать?</p>
           <div className="flex gap-4">
             <button
@@ -73,7 +78,10 @@ export const ModalFillingSteps: React.FC<ModalFillingStepsProps> = ({
           <div className="text-2xl font-bold mb-4 text-center">
             {selectedCount}
           </div>
-          <p className="text-center mb-4 text-sm text-gray-500">
+          <p className="text-center mb-4 text-base text-black">
+            Текущее: {currentCount}
+          </p>
+          <p className="text-center mb-4 text-base text-black">
             Максимум: {maxCount}
           </p>
           <div className="grid grid-cols-3 gap-2 mb-4">
@@ -94,12 +102,23 @@ export const ModalFillingSteps: React.FC<ModalFillingStepsProps> = ({
             >
               Сбросить
             </button>
-            <button
-              onClick={() => setSelectedCount(maxCount)} // Устанавливаем максимум
-              className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              Затарить полностью
-            </button>
+            {productAction === "addProduct" && (
+              <button
+                onClick={() => setSelectedCount(maxCount - currentCount)} // Устанавливаем максимум
+                className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              >
+                Затарить полностью
+              </button>
+            )}
+
+            {productAction === "removeProduct" && (
+              <button
+                onClick={() => setSelectedCount(currentCount)} // Устанавливаем максимум
+                className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-green-600"
+              >
+                Удалить все
+              </button>
+            )}
           </div>
         </>
       );

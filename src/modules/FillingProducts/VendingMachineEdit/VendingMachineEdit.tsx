@@ -8,6 +8,7 @@ import { useWithdrawProducts } from "./api/useWithdrawProducts";
 import { useKeepProducts } from "./api/useKeepProducts";
 import { useProductInCell } from "./api/useProductInCell";
 import { ActionButtons } from "./components/ActionButtons ";
+import { useStepStore } from "../ModalFilling/store/stepStore";
 
 export const VendingMachineEdit: React.FC<{ id: string | undefined }> = ({
   id,
@@ -24,7 +25,7 @@ export const VendingMachineEdit: React.FC<{ id: string | undefined }> = ({
   const { mutate: withdrawProducts, isPending: isWithdrawLoading } =
     useWithdrawProducts();
   const { mutate: keepProducts, isPending: isKeepLoading } = useKeepProducts();
-
+  const { step, selectedCount, setStep, setSelectedCount } = useStepStore();
   // Если идет загрузка или одна из мутаций
   if (isLoading || isFillingLoading || isWithdrawLoading || isKeepLoading)
     return <Loader marginTop={100} />;
@@ -55,7 +56,7 @@ export const VendingMachineEdit: React.FC<{ id: string | undefined }> = ({
           await withdrawProducts({
             id,
             productIds: productInCell.products.map((p) => p.id),
-            count: currentCount,
+            countToDelete: selectedCount,
           });
           break;
         case "keep":
@@ -82,6 +83,7 @@ export const VendingMachineEdit: React.FC<{ id: string | undefined }> = ({
         productInCell={productInCell}
         onAction={handleAction}
         setVisible={setVisible}
+        setStep={setStep}
         isMaxCount={maxCount === currentCount}
       />
 
@@ -94,6 +96,7 @@ export const VendingMachineEdit: React.FC<{ id: string | undefined }> = ({
             setVisible(false);
           }}
           maxCount={productInCell?.max_count || 0}
+          currentCount={currentCount}
         />
       </Modal>
     </div>
