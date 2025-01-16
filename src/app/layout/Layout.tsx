@@ -7,7 +7,7 @@ export const Layout = () => {
     <div className="w-[1080px]  text-center relative  h-[1920px]">
       <Help />
       <Contacts />
-      <main className=" w-[1080px] h-[1920px] border-[1px] border-black">
+      <main className=" w-[1080px] min-h-screen border-[1px] border-black">
         <Outlet />
       </main>
     </div>
