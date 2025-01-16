@@ -1,2 +1,2 @@
-export const API_URL = "http://127.0.0.1:8000/api/";
-export const API_URL_CLIENT = "http://127.0.0.1:8000/api/";
+export const API_URL = "http://185.135.83.79/api/";
+export const API_URL_CLIENT = "http://185.135.83.79/api/";
