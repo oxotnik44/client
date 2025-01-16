@@ -11,10 +11,10 @@ export const ActionFooter = () => {
       <div className="border-t-[5px] w-full flex justify-between absolute min-h-[160px] h-[80%] max-h-[233px] bottom-0 border-layoutLine">
         <Link
           to={`/products/1`}
-          className="flex w-[330px] ml-[46px] mt-[4%] rounded-[30px] h-[84px] justify-center items-center bg-buttonBg"
+          className="flex w-[480px] ml-[46px] mt-[4%] rounded-[30px] h-[84px] justify-center items-center bg-buttonBg"
         >
           <img src={arrowLeft} alt={"return"} />
-          <div className="font-bold text-[28px]">Назад в меню</div>
+          <div className="font-bold text-[28px] mr-5">Вернуться к выбору товара</div>
         </Link>
         <img
           className="mt-[4%] mr-[46px] cursor-pointer w-[84px] h-[84px]"

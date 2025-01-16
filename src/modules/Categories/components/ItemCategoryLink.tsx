@@ -18,11 +18,13 @@ export const ItemCategoryLink = ({ link }: Props) => {
       to={`/products/${link.id}`} // Переход по маршруту с id категории
     >
       <img
-        className="ml-[25px] h-[86px] w-[86px] rounded-xl"
+        className="ml-[25px] h-[90px] w-[90px] rounded-xl"
         src={link.image}
         alt={link.name}
       />
-      <div className="text-[28px] ml-[22px] font-bold"> {link.name} </div>
+      <div className="text-[28px] ml-[22px] font-bold text-center w-full">
+        {link.name}
+      </div>
     </Link>
   );
 };

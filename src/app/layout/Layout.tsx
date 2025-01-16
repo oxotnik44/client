@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Contacts } from "src/components/Contacts/Contacts";
-import Help from "src/components/Help";
+import Help from "src/components/Help/Help";
 
 export const Layout = () => {
   return (

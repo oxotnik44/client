@@ -16,7 +16,7 @@ export const ItemProduct = ({ product }: Props) => {
   return (
     <div className="relative w-[312px] mb-[52px]">
       <Link
-        to={`/product/${product.id}`}
+        to={`/productCard/${product.id}`}
         className="rounded-[33px] h-[396px] flex-col justify-start items-center flex bg-layoutColor"
       >
         <div className="font-bold text-[20px] text-center w-[90%] h-[24px] mt-[34px]">
