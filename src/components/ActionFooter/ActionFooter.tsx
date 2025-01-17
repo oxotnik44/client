@@ -8,7 +8,7 @@ export const ActionFooter = () => {
 
   return (
     <div className="w-full mt-[70px] h-full relative">
-      <div className="border-t-[5px] w-full flex justify-between absolute min-h-[160px] h-[80%] max-h-[233px] bottom-0 border-layoutLine">
+      <div className="border-t-[5px] w-full flex justify-between absolute min-h-[160px] h-[80%] max-h-[223px] bottom-0 border-layoutLine">
         <Link
           to={`/products/2`}
           className="flex w-[480px] ml-[46px] mt-[4%] rounded-[30px] h-[84px] justify-center items-center bg-buttonBg"
@@ -19,7 +19,7 @@ export const ActionFooter = () => {
           </div>
         </Link>
         <img
-          className="mt-[4%] mr-[46px] cursor-pointer w-[84px] h-[84px]"
+          className="mt-[5%] mr-[46px] cursor-pointer w-[84px] h-[84px]"
           onClick={() => changeVisibility(true)}
           src={info}
           alt={"info"}

@@ -4,10 +4,10 @@ import Help from "src/components/Help/Help";
 
 export const Layout = () => {
   return (
-    <div className="w-[1080px]  text-center relative  h-[1920px]">
+    <div className="w-[1080px] text-center relative h-[1920px]">
       <Help />
       <Contacts />
-      <main className=" w-[1080px] min-h-screen border-[1px] border-black">
+      <main className="w-[1080px] min-h-[1920px] border-[1px] border-black">
         <Outlet />
       </main>
     </div>

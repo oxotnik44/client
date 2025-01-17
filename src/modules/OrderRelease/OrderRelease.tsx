@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 export const OrderRelease = () => {
   const navigate = useNavigate();
-  setTimeout(() => navigate("/"), 15000);
+  // setTimeout(() => navigate("/"), 15000);
   return (
     <div className="h-full w-full flex flex-col items-center justify-center bg-orange-50">
       <div className="bg-orange-100 shadow-2xl rounded-lg p-12 w-[80%] max-w-4xl text-center border-4 border-orange-500">

@@ -6,17 +6,15 @@ export const CookingPage = () => {
   const { changeVisibility } = useContactsStore();
 
   return (
-    <div className="h-full w-full flex flex-col items-center">
-      <div className="w-full mt-[100px] h-full relative">
-        <Cooking />
-        <div className="border-t-[5px] w-full flex justify-end absolute min-h-[170px] h-[80%] max-h-[233px] bottom-0 border-layoutLine">
-          <img
-            className="mt-[4%] mr-[46px] cursor-pointer w-[84px] h-[84px]"
-            onClick={() => changeVisibility(true)}
-            src={info}
-            alt={"info"}
-          />
-        </div>
+    <div className="w-[1080px]  h-[1920px] flex flex-col items-center">
+      <Cooking />
+      <div className="border-t-[5px] w-full flex justify-end  min-h-[170px] h-[80%] max-h-[223px]  border-layoutLine">
+        <img
+          className="mt-[5%] mr-[46px] cursor-pointer w-[84px] h-[84px]"
+          onClick={() => changeVisibility(true)}
+          src={info}
+          alt={"info"}
+        />
       </div>
     </div>
   );
