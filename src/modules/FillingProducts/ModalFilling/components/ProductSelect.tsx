@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchProducts } from "../api/fetchProducts";
-import { useUpdateProduct } from "../hooks/useUpdateProduct";
+import { useUpdateProduct } from "../api/useUpdateProduct";
 import { useProductInCell } from "../../VendingMachineEdit/api/useProductInCell";
 
 interface ModalProps {
@@ -33,7 +33,7 @@ export const ProductSelect: React.FC<ModalProps> = ({ onClose }) => {
         id: id || "",
         productId: productId,
         count: 0,
-        maxCount: 10,
+        maxCount: 4,
       }); // Передаем параметры в одном объекте
       setResponseMessage(`Товар обновлен: ${result.message || "успешно"}`);
       refetch();
