@@ -5,7 +5,9 @@ import { API_URL_CLIENT } from "src/shared/api/http/axios-instance"; // Убед
 const fetchCategories = async (): Promise<Category[]> => {
   const res = await fetch(`${API_URL_CLIENT}products/category`);
   if (!res.ok) throw new Error("Ошибка при загрузке категорий");
-  return res.json();
+
+  const categories = await res.json();
+  return categories.slice(1); // Исключаем первый элемент
 };
 
 // Хук для получения данных категорий с использованием react-query

@@ -11,7 +11,7 @@ export const HomePage = () => {
   const { data: categories, isLoading, isError } = useCategories();
 
   // Получаем id первой категории, если они есть
-  const firstCategoryId = categories?.[1]?.id || 0;
+  const firstCategoryId = categories?.[0]?.id || 0;
 
   // Используем Zustand для сохранения состояния категорий и id
   const { setFirstCategoryId, setCategories } = useCategoriesStore();
